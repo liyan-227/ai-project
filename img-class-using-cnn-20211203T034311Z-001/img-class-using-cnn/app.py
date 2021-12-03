@@ -8,9 +8,10 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = './static/uploads/'
 model = load_model('identifikasi_model.h5')
 
-class_dict = {0: 'wajah liyan ganteng', 1: 'wajah orang lain'}
+class_dict = {0: 'wajah liyan', 1: 'wajah orang lain'}
 
 def predict_label(img_path):
+  
     query = cv2.imread(img_path)
     output = query.copy()
     query = cv2.resize(query, (32, 32))
@@ -20,6 +21,7 @@ def predict_label(img_path):
     q_pred = model.predict(q)
     predicted_bit = int(q_pred)
     return class_dict[predicted_bit]
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
